@@ -1,0 +1,30 @@
+C:\Users\Dominik\AppData\Roaming\Python\Python311\Scripts\pylint.exe C:\Users\Dominik\Desktop\Projekty\Python\IOProject\Membot
+************* Module Membot
+__init__.py:1:0: C0103: Module name "Membot" doesn't conform to snake_case naming style (invalid-name)
+************* Module Membot.bot
+bot.py:12:0: W0401: Wildcard import bot_on_message_commands (wildcard-import)
+bot.py:17:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot.py:62:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot.py:92:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot.py:144:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot.py:151:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot.py:11:0: W0611: Unused REPORT_CHANNEL imported from Membot.env_live (unused-import)
+************* Module Membot.bot_on_message_commands
+bot_on_message_commands.py:248:0: C0305: Trailing newlines (trailing-newlines)
+bot_on_message_commands.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot_on_message_commands.py:50:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot_on_message_commands.py:56:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot_on_message_commands.py:73:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot_on_message_commands.py:136:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot_on_message_commands.py:154:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot_on_message_commands.py:168:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot_on_message_commands.py:214:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot_on_message_commands.py:233:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot_on_message_commands.py:238:0: C0116: Missing function or method docstring (missing-function-docstring)
+bot_on_message_commands.py:243:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+------------------------------------------------------------------
+Your code has been rated at 9.16/10 (previous run: 9.16/10, +0.00)
+
+
+Process finished with exit code 20

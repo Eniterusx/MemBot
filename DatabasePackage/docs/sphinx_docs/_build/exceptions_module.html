@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>exceptions_module package &#8212; Database Package 1.0.0. documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="exceptions-module-package">
+<h1>exceptions_module package<a class="headerlink" href="#exceptions-module-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-src.exceptions_module.connection_exceptions">
+<span id="exceptions-module-connection-exceptions-module"></span><h2>exceptions_module.connection_exceptions module<a class="headerlink" href="#module-src.exceptions_module.connection_exceptions" title="Permalink to this heading">¶</a></h2>
+<p>Module including all the connection exceptions.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.exceptions_module.connection_exceptions.NoConnection">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.exceptions_module.connection_exceptions.</span></span><span class="sig-name descname"><span class="pre">NoConnection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/exceptions_module/connection_exceptions.html#NoConnection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.exceptions_module.connection_exceptions.NoConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Class that indicates, NoConnection error. It is thrown when developer tries to perform some reading / writing
+activity, but forgot to use .connect() method on a desired class object.</p>
+</dd></dl>
+
+</section>
+<section id="module-src.exceptions_module.reading_exceptions">
+<span id="exceptions-module-reading-exceptions-module"></span><h2>exceptions_module.reading_exceptions module<a class="headerlink" href="#module-src.exceptions_module.reading_exceptions" title="Permalink to this heading">¶</a></h2>
+<p>Module including all the reading form database exceptions.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.exceptions_module.reading_exceptions.DataWasNotFound">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.exceptions_module.reading_exceptions.</span></span><span class="sig-name descname"><span class="pre">DataWasNotFound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/exceptions_module/reading_exceptions.html#DataWasNotFound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.exceptions_module.reading_exceptions.DataWasNotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Class that indicates DataWasNotFound error. It is thrown when record / records, that we are trying to find in a
+database, was not found (SQL returned empty table).</p>
+</dd></dl>
+
+</section>
+<section id="module-src.exceptions_module.verification_exceptions">
+<span id="exceptions-module-verification-exceptions-module"></span><h2>exceptions_module.verification_exceptions module<a class="headerlink" href="#module-src.exceptions_module.verification_exceptions" title="Permalink to this heading">¶</a></h2>
+<p>Module including all the verification process exceptions.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.exceptions_module.verification_exceptions.VerificationProcessNotPassed">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.exceptions_module.verification_exceptions.</span></span><span class="sig-name descname"><span class="pre">VerificationProcessNotPassed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/exceptions_module/verification_exceptions.html#VerificationProcessNotPassed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.exceptions_module.verification_exceptions.VerificationProcessNotPassed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Class that indicates VerificationProcessNotPassed error. It is thrown when the data that developer is trying to
+supply query i.e. url / user password / user_id does not meet a specific bound for type of data.</p>
+</dd></dl>
+
+</section>
+<section id="module-src.exceptions_module.writing_exceptions">
+<span id="exceptions-module-writing-exceptions-module"></span><h2>exceptions_module.writing_exceptions module<a class="headerlink" href="#module-src.exceptions_module.writing_exceptions" title="Permalink to this heading">¶</a></h2>
+<p>Module including all the writing to a database exceptions.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.exceptions_module.writing_exceptions.PictureAlreadyExistsInDataBase">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.exceptions_module.writing_exceptions.</span></span><span class="sig-name descname"><span class="pre">PictureAlreadyExistsInDataBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/exceptions_module/writing_exceptions.html#PictureAlreadyExistsInDataBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.exceptions_module.writing_exceptions.PictureAlreadyExistsInDataBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Class that indicates PictureAlreadyExistsInDataBase error. It is thrown when developer tries to add the same picture
+(identical url or image_hash or delete_hash) twice to a database (No duplicates allowed).</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.exceptions_module.writing_exceptions.UserAlreadyExistsInDataBase">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.exceptions_module.writing_exceptions.</span></span><span class="sig-name descname"><span class="pre">UserAlreadyExistsInDataBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/exceptions_module/writing_exceptions.html#UserAlreadyExistsInDataBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.exceptions_module.writing_exceptions.UserAlreadyExistsInDataBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Class that indicates UserAlreadyExistsInDataBase error. It is thrown when developer tries to add the same user
+(identical discord_id) twice to a database (No duplicates allowed).</p>
+</dd></dl>
+
+</section>
+<section id="module-src.exceptions_module">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src.exceptions_module" title="Permalink to this heading">¶</a></h2>
+<p>Module that contains exceptions thrown by all classes in other modules.</p>
+<p>Modules covered by these exceptions inside:</p>
+<p>o.n.|   Name of module      |   Referencing file including exceptions
+—-<a href="#id1"><span class="problematic" id="id2">|-----------------------|</span></a>——————————————————————————————-
+1.  |   connection_module   |   connection_exceptions.py
+2.  |   verification_module |   verification_exceptions.py
+3.  |   manage_module       |   writing_exceptions.py, reading_exceptions.py</p>
+<p>!IMPORTANT!</p>
+<ul class="simple">
+<li><p>Please note that, because there is present inheritance, between modules classes, sometimes you need to import more
+files, than shown here. For more information, on what exceptions are thrown, by what method it is advised to see
+full description of the previously considered method in its class. There will be a list of all of them.</p></li>
+<li><p>No tests are being developed dor this module, because it only contains exception classes.</p></li>
+</ul>
+<p>In “database_not_working_pictures” directory are located some pictures, that are shown when discord user is trying to
+execute a Meme-bot command, while the connection with a database was not established.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Database Package</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Dominik Breksa, Jakub Kot.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/exceptions_module.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

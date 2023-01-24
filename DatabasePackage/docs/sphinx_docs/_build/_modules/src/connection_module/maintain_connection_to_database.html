@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>src.connection_module.maintain_connection_to_database &#8212; Database Package 1.0.0. documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for src.connection_module.maintain_connection_to_database</h1><div class="highlight"><pre>
+<span></span><span class="c1"># pylint: disable=line-too-long,import-error</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module related to connecting to a database.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">mysql.connector</span>
+
+<span class="kn">from</span> <span class="nn">DatabasePackage.src.connection_module.env_live</span> <span class="kn">import</span> <span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">,</span> <span class="n">DATABASE_NAME</span><span class="p">,</span> <span class="n">USERNAME</span><span class="p">,</span> <span class="n">PASSWORD</span><span class="p">,</span> <span class="n">CHARACTER_SET</span>
+
+
+<div class="viewcode-block" id="Connection"><a class="viewcode-back" href="../../../connection_module.html#src.connection_module.maintain_connection_to_database.Connection">[docs]</a><span class="k">class</span> <span class="nc">Connection</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class used to maintain connection with a database and help with optimization.</span>
+
+<span class="sd">------------------------------------------------------------------------------------------------------------------------</span>
+
+<span class="sd">    !IMPORTANT!</span>
+<span class="sd">        -   Keep in mind that despite the previous note methods used in this class will not throw more exceptions than</span>
+<span class="sd">            listed in method description.</span>
+
+<span class="sd">------------------------------------------------------------------------------------------------------------------------</span>
+
+<span class="sd">    For any bug reports please contact: Dominik Breksa.</span>
+
+<span class="sd">------------------------------------------------------------------------------------------------------------------------</span>
+
+<span class="sd">    Songs, with which this class was made:</span>
+<span class="sd">        -   BLACK SABBATH, &quot;Paranoid&quot;.</span>
+<span class="sd">        -   WORKERS &amp; RESOURCES: SOVIET REPUBLIC GAME SOUNDTRACK</span>
+<span class="sd">        -   DEFTONES, &quot;My Own Summer&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        **Default constructor**, that takes parameters needed to start connection to a MYSQL server using</span>
+<span class="sd">        :class:`mysql.connector`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cur</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">HOST</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_port</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">PORT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dbname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DATABASE_NAME</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">USERNAME</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">PASSWORD</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_charset</span> <span class="o">=</span> <span class="n">CHARACTER_SET</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_connected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter for self._is_connected. Makes this variable immutable.</span>
+
+<span class="sd">        :return:    True if you have earlier used .connect() method False otherwise.</span>
+<span class="sd">        :rtype:     bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_connected</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Connection class representation method.</span>
+
+<span class="sd">        :return:    Class representation, formatted in a specific way.</span>
+<span class="sd">        :rtype:     str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(_host=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_host</span><span class="si">}</span><span class="s1">, _port=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_port</span><span class="si">}</span><span class="s1">, _dbname=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_dbname</span><span class="si">}</span><span class="s1">, &#39;</span> \
+               <span class="sa">f</span><span class="s1">&#39;_user=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="si">}</span><span class="s1">, _password=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="si">}</span><span class="s1">, _is_connected=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_connected</span><span class="si">}</span><span class="s1">)&#39;</span>
+
+<div class="viewcode-block" id="Connection.connect"><a class="viewcode-back" href="../../../connection_module.html#src.connection_module.maintain_connection_to_database.Connection.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used to initiate a connection. Must be used first before any further methods are called</span>
+<span class="sd">        (apart from default constructor). Otherwise, other class methods will raise error: NoConnection meaning that no</span>
+<span class="sd">        connection is started.</span>
+
+<span class="sd">        !IMPORTANT!</span>
+<span class="sd">            -   This method is deprecated. It is advised to use &quot;with&quot; command while managing connection, while</span>
+<span class="sd">                using ManageDatabase class.</span>
+
+<span class="sd">        For connection details it uses the arguments provided in a constructor.</span>
+
+<span class="sd">        :except mysql.connector.Error:  Any of the exception from &quot;mysql.connector&quot; libreary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_connected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_port</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_dbname</span><span class="p">,</span>
+                                                 <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_password</span><span class="p">,</span> <span class="n">raise_on_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                 <span class="n">charset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_charset</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_is_connected</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Connection.disconnect"><a class="viewcode-back" href="../../../connection_module.html#src.connection_module.maintain_connection_to_database.Connection.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method used to disconnect from a MYSQL server. It must be used, before exiting the program in order to free a</span>
+<span class="sd">        port on your device and kill a specific process in a database.</span>
+
+<span class="sd">        !IMPORTANT!</span>
+<span class="sd">            -   This method is deprecated. It is advised to use &quot;with&quot; command while managing connection, while</span>
+<span class="sd">                using ManageDatabase class.</span>
+
+<span class="sd">        :except mysql.connector.Error:  Any of the exception from &quot;mysql.connector&quot; libreary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_connected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_is_connected</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cur</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span></div>
+
+    <span class="k">def</span> <span class="nf">_ask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(),</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method used to proceed an SQL query. It is resistant to SQL injection attacks.</span>
+
+<span class="sd">        :param sql:     Parameter, that is used, as a query to a database.</span>
+<span class="sd">        :type sql:      str</span>
+
+<span class="sd">        :param data:    Argument, that is used to fill SQL queries with arguments. Must be tuple of strings. Default to</span>
+<span class="sd">                        Empty tuple.</span>
+<span class="sd">        :type data:     tuple[Any, ...]</span>
+
+<span class="sd">        :param mode:    Variable telling the function what type of query it must proceed. If False means that it will</span>
+<span class="sd">                        commit a data, True it will return the result of a query.</span>
+<span class="sd">        :type mode:     bool</span>
+
+<span class="sd">        :return:    It is optional to return a list of tuple. In other words the list is where all the record are</span>
+<span class="sd">                    located, but the record itself is a specific tuple in that list.</span>
+<span class="sd">        :rtype:     Optional[list[tuple[Any, ...]]]</span>
+
+<span class="sd">        :except mysql.connector.Error:  Any of the exception from &quot;mysql.connector&quot; libreary.</span>
+<span class="sd">        :except NoConnection:           Exception from &quot;connection_exceptions.py&quot; file, created by Dominik Breksa. See</span>
+<span class="sd">                                        its description to understand its occurrence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_connected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>  <span class="c1"># Query execution</span>
+            <span class="k">if</span> <span class="n">mode</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>  <span class="c1"># Returning answer to a proces</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>  <span class="c1"># Possible commit to a database</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">Database Package</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Dominik Breksa, Jakub Kot.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

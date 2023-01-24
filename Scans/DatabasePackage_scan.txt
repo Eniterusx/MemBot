@@ -1,0 +1,45 @@
+C:\Users\Dominik\AppData\Roaming\Python\Python311\Scripts\pylint.exe C:\Users\Dominik\Desktop\Projekty\Python\IOProject\DatabasePackage\src\connection_module
+************* Module DatabasePackage.src.connection_module.maintain_connection_to_database
+maintain_connection_to_database.py:14:0: R0902: Too many instance attributes (9/7) (too-many-instance-attributes)
+
+-----------------------------------
+Your code has been rated at 9.80/10
+
+
+Process finished with exit code 8
+
+C:\Users\Dominik\AppData\Roaming\Python\Python311\Scripts\pylint.exe C:\Users\Dominik\Desktop\Projekty\Python\IOProject\DatabasePackage\src\exceptions_module
+
+------------------------------------
+Your code has been rated at 10.00/10
+
+
+Process finished with exit code 0
+
+C:\Users\Dominik\AppData\Roaming\Python\Python311\Scripts\pylint.exe C:\Users\Dominik\Desktop\Projekty\Python\IOProject\DatabasePackage\src\manage_module
+************* Module DatabasePackage.src.manage_module.manage_database
+manage_database.py:161:44: C0303: Trailing whitespace (trailing-whitespace)
+manage_database.py:328:21: C0303: Trailing whitespace (trailing-whitespace)
+manage_database.py:422:52: C0303: Trailing whitespace (trailing-whitespace)
+manage_database.py:485:114: C0303: Trailing whitespace (trailing-whitespace)
+manage_database.py:512:47: C0303: Trailing whitespace (trailing-whitespace)
+manage_database.py:545:47: C0303: Trailing whitespace (trailing-whitespace)
+manage_database.py:38:4: W0246: Useless parent or super() delegation in method '__init__' (useless-parent-delegation)
+manage_database.py:116:4: R0913: Too many arguments (9/5) (too-many-arguments)
+manage_database.py:481:50: W0613: Unused argument 'extra' (unused-argument)
+
+-----------------------------------
+Your code has been rated at 9.40/10
+
+
+Process finished with exit code 28
+
+C:\Users\Dominik\AppData\Roaming\Python\Python311\Scripts\pylint.exe C:\Users\Dominik\Desktop\Projekty\Python\IOProject\DatabasePackage\src\verification_module
+************* Module DatabasePackage.src.verification_module.data_verification
+data_verification.py:55:4: C0103: Attribute name "b" doesn't conform to snake_case naming style (invalid-name)
+
+-----------------------------------
+Your code has been rated at 9.91/10
+
+
+Process finished with exit code 16

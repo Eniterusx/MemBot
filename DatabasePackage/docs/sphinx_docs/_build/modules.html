@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>src &#8212; Database Package 1.0.0. documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="src">
+<h1>src<a class="headerlink" href="#src" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="connection_module.html">connection_module package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="connection_module.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connection_module.html#module-src.connection_module.env_dev">connection_module.env_dev module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connection_module.html#module-src.connection_module.env_live">connection_module.env_live module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connection_module.html#module-src.connection_module.maintain_connection_to_database">connection_module.maintain_connection_to_database module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="connection_module.html#src.connection_module.maintain_connection_to_database.Connection"><code class="docutils literal notranslate"><span class="pre">Connection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="connection_module.html#src.connection_module.maintain_connection_to_database.Connection.connect"><code class="docutils literal notranslate"><span class="pre">Connection.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="connection_module.html#src.connection_module.maintain_connection_to_database.Connection.disconnect"><code class="docutils literal notranslate"><span class="pre">Connection.disconnect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="connection_module.html#src.connection_module.maintain_connection_to_database.Connection.is_connected"><code class="docutils literal notranslate"><span class="pre">Connection.is_connected</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="connection_module.html#module-src.connection_module">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions_module.html">exceptions_module package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exceptions_module.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions_module.html#module-src.exceptions_module.connection_exceptions">exceptions_module.connection_exceptions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="exceptions_module.html#src.exceptions_module.connection_exceptions.NoConnection"><code class="docutils literal notranslate"><span class="pre">NoConnection</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions_module.html#module-src.exceptions_module.reading_exceptions">exceptions_module.reading_exceptions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="exceptions_module.html#src.exceptions_module.reading_exceptions.DataWasNotFound"><code class="docutils literal notranslate"><span class="pre">DataWasNotFound</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions_module.html#module-src.exceptions_module.verification_exceptions">exceptions_module.verification_exceptions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="exceptions_module.html#src.exceptions_module.verification_exceptions.VerificationProcessNotPassed"><code class="docutils literal notranslate"><span class="pre">VerificationProcessNotPassed</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions_module.html#module-src.exceptions_module.writing_exceptions">exceptions_module.writing_exceptions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="exceptions_module.html#src.exceptions_module.writing_exceptions.PictureAlreadyExistsInDataBase"><code class="docutils literal notranslate"><span class="pre">PictureAlreadyExistsInDataBase</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="exceptions_module.html#src.exceptions_module.writing_exceptions.UserAlreadyExistsInDataBase"><code class="docutils literal notranslate"><span class="pre">UserAlreadyExistsInDataBase</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions_module.html#module-src.exceptions_module">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="manage_module.html">manage_module package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manage_module.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manage_module.html#module-src.manage_module.manage_database">manage_module.manage_database module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase"><code class="docutils literal notranslate"><span class="pre">ManageDatabase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.add_picture"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.add_picture()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.add_report"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.add_report()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.add_user"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.add_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.add_vote"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.add_vote()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.ban"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.ban()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.delete_picture"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.delete_picture()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.delete_under_performing_picture"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.delete_under_performing_picture()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.delete_user"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.delete_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.find_picture"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.find_picture()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.find_report"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.find_report()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.find_user"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.find_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.is_user_banned"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.is_user_banned()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.random_picture"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.random_picture()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.random_picture_wait_room"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.random_picture_wait_room()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.remove_reaction"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.remove_reaction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.unban"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.unban()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.update_picture"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.update_picture()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="manage_module.html#src.manage_module.manage_database.ManageDatabase.update_report"><code class="docutils literal notranslate"><span class="pre">ManageDatabase.update_report()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="manage_module.html#module-src.manage_module">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="verification_module.html">verification_module package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="verification_module.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="verification_module.html#module-src.verification_module.bounds">verification_module.bounds module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="verification_module.html#src.verification_module.bounds.Bound"><code class="docutils literal notranslate"><span class="pre">Bound</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="verification_module.html#src.verification_module.bounds.Bound.check"><code class="docutils literal notranslate"><span class="pre">Bound.check()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="verification_module.html#module-src.verification_module.data_verification">verification_module.data_verification module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="verification_module.html#src.verification_module.data_verification.Verification"><code class="docutils literal notranslate"><span class="pre">Verification</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="verification_module.html#src.verification_module.data_verification.Verification.b"><code class="docutils literal notranslate"><span class="pre">Verification.b</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="verification_module.html#src.verification_module.data_verification.Verification.error_data"><code class="docutils literal notranslate"><span class="pre">Verification.error_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="verification_module.html#src.verification_module.data_verification.Verification.verify_data"><code class="docutils literal notranslate"><span class="pre">Verification.verify_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="verification_module.html#module-src.verification_module">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Database Package</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Dominik Breksa, Jakub Kot.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/modules.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

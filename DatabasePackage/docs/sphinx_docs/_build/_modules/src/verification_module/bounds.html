@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>src.verification_module.bounds &#8212; Database Package 1.0.0. documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for src.verification_module.bounds</h1><div class="highlight"><pre>
+<span></span><span class="c1"># pylint: disable=line-too-long,import-error</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module inclining&#39;s the bound to data sent to a database.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="n">ALLOWED_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mp4&#39;</span><span class="p">,</span> <span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;gif&#39;</span><span class="p">,</span> <span class="s1">&#39;jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;jpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;apng&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Bound"><a class="viewcode-back" href="../../../verification_module.html#src.verification_module.bounds.Bound">[docs]</a><span class="k">class</span> <span class="nc">Bound</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class used as pattern of bounds to verify data send to a database.</span>
+
+<span class="sd">    List of bounds for all the methods are located in method description.</span>
+
+<span class="sd">------------------------------------------------------------------------------------------------------------------------</span>
+
+<span class="sd">    !IMPORTANT!</span>
+<span class="sd">        -   All methods, beside check(...) and _tes(...) in this class are serving a supportive role, are</span>
+<span class="sd">            self-explanatory and rather simple.</span>
+
+<span class="sd">        -   If you find yourself not knowing which colum certain bound checks fell free to look on the erd.PNG image</span>
+<span class="sd">            located: &quot;docs/database_info_schema&quot; or just see the description the specific table located in the same</span>
+<span class="sd">            folder. At the end you can ask Dominik Breksa what it does.</span>
+
+<span class="sd">------------------------------------------------------------------------------------------------------------------------</span>
+
+<span class="sd">    For any bug reports please contact: Dominik Breksa.</span>
+
+<span class="sd">------------------------------------------------------------------------------------------------------------------------</span>
+
+<span class="sd">    Songs, with which this class was made:</span>
+<span class="sd">        -   Malik Montana, &quot;7 5 0&quot;.</span>
+<span class="sd">        -   Malik Montana x Diho, &quot;Naaajak&quot;.</span>
+<span class="sd">        -   Malik Montana, &quot;Robie YEAH&quot;.</span>
+<span class="sd">        -   Malik Montana, &quot;Mówili&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Default constructor that sets starting bounds.</span>
+
+<span class="sd">        If you have desire to change some of its parameters use .update_bounds(...) method from this class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dispatch</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;file_name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verify_file_name</span><span class="p">,</span>
+            <span class="s1">&#39;file_type&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verify_file_type</span><span class="p">,</span>
+            <span class="s1">&#39;file_size&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verify_file_size</span><span class="p">,</span>
+            <span class="s1">&#39;image_category&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verify_image_category</span><span class="p">,</span>
+
+            <span class="s1">&#39;reason_of_report&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verify_reason_of_report</span><span class="p">,</span>
+
+            <span class="s1">&#39;reason_of_ban&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verify_reason_of_ban</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bound class representation method.</span>
+
+<span class="sd">        :return:    Class representation, formatted in a specific way.</span>
+<span class="sd">        :rtype:     str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">()&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bound class to string method.</span>
+
+<span class="sd">        :return:        Returns the string representation of an object.</span>
+<span class="sd">        :rtype:         str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">()&#39;</span>
+
+<div class="viewcode-block" id="Bound.check"><a class="viewcode-back" href="../../../verification_module.html#src.verification_module.bounds.Bound.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_of_argument</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">argument</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method that calls adequate method that goes through a validation process.</span>
+
+<span class="sd">        :param type_of_argument:    Colum your argument refers to. See the description of Verification.verify_data(...)</span>
+<span class="sd">                                    method, because the type_of_argument is complementary.</span>
+<span class="sd">        :type type_of_argument:     str</span>
+
+<span class="sd">        :param argument:            the actual peace of data that you want to check correctness.</span>
+
+<span class="sd">        :return:    Tuple that have two slots; in the first type of data that was checked and in a second the argument</span>
+<span class="sd">                    that you try to validate.</span>
+<span class="sd">        :rtype:     Optional[tuple[str, Any]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dispatch</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">type_of_argument</span><span class="p">)(</span><span class="n">argument</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method that is used to run a tests given in an arguments.</span>
+
+<span class="sd">        :param test_selector:   List of all the test to run (as a functions).</span>
+<span class="sd">        :type:                  list[Any, ...]</span>
+
+<span class="sd">        :return:    The outcome of a test if it was not passed.</span>
+<span class="sd">        :rtype:     str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">test_selector</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">test</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">output</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Pictures----------------------------------------------------------------------------------------------------------</span>
+
+    <span class="k">def</span> <span class="nf">_verify_file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bound method:   Provided file_name must be between 1 and 511 characters and can only contain characters from</span>
+<span class="sd">                        this regex [A-Za-z0-9_ ąćęłńóśźżł].</span>
+
+<span class="sd">        :param file_name:  File name that you want to check.</span>
+<span class="sd">        :type file_name:   str</span>
+
+<span class="sd">        :return:    If check was not passed it will return the data to verification.</span>
+<span class="sd">        :rtype:     Optional[tuple[str, str]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">_verify_file_name_must_contain_specific_characters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;^[A-Za-z0-9_ ąćęłńóśźżł]{2,70}$&quot;</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;file_name_must_contain_specific_characters&quot;</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">def</span> <span class="nf">_verify_file_name_must_be_specific_length</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">70</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;file_name_must_be_specific_length&quot;</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">test_selector</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">_verify_file_name_must_contain_specific_characters</span><span class="p">,</span>
+            <span class="n">_verify_file_name_must_be_specific_length</span>
+        <span class="p">]</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">),</span> <span class="n">file_name</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_verify_file_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bound method:   Provided file_type must be one of ALLOWED_EXTENSIONS.</span>
+
+<span class="sd">        :param file_type:  File type that you want to check.</span>
+<span class="sd">        :type file_type:   str</span>
+
+<span class="sd">        :return:    If check was not passed it will return the data to verification.</span>
+<span class="sd">        :rtype:     Optional[tuple[str, str]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">_verify_file_type_must_be_in_allowed_types</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">file_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALLOWED_EXTENSIONS</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;file_type_must_be_in_allowed_types&quot;</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">test_selector</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">_verify_file_type_must_be_in_allowed_types</span>
+        <span class="p">]</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">),</span> <span class="n">file_type</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_verify_image_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_category</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bound method:   Provided image_category must be longer that a single character. And must match this regex:</span>
+<span class="sd">                        ^[A-z0-9_ ąćęłńóśźżł]+$ .</span>
+
+<span class="sd">        :param image_category:  Category of image that you want to check.</span>
+<span class="sd">        :type image_category:   str</span>
+
+<span class="sd">        :return:    If check was not passed it will return the data to verification.</span>
+<span class="sd">        :rtype:     Optional[tuple[str, str]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">_verify_image_category_must_contain_specific_characters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;^[A-z0-9_ ąćęłńóśźżł]+$&quot;</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">image_category</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;image_category_must_contain_specific_characters&quot;</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">test_selector</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">_verify_image_category_must_contain_specific_characters</span>
+        <span class="p">]</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">),</span> <span class="n">image_category</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_verify_file_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attachment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bound method:   File size cannot be larger than 25MiB.</span>
+
+<span class="sd">        :param attachment:  File that you want to check.</span>
+<span class="sd">        :type attachment:   file</span>
+
+<span class="sd">        :return:    If check was not passed it will return the data to verification.</span>
+<span class="sd">        :rtype:     Optional[tuple[str, str]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">_verify_file_size_too_big</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">attachment</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;_verify_file_size_too_big&quot;</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">test_selector</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">_verify_file_size_too_big</span>
+        <span class="p">]</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">),</span> <span class="n">attachment</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Reports-----------------------------------------------------------------------------------------------------------</span>
+
+    <span class="k">def</span> <span class="nf">_verify_reason_of_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason_of_report</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bound method:   Provided reason_of_report must be longer that a single character.  And must match this regex:</span>
+<span class="sd">                        ^[A-z0-9_ ąćęłńóśźżł]+$ .</span>
+
+<span class="sd">        :param reason_of_report:  Reason of report that you want to check.</span>
+<span class="sd">        :type reason_of_report:   str</span>
+
+<span class="sd">        :return:    If check was not passed it will return the data to verification.</span>
+<span class="sd">        :rtype:     Optional[tuple[str, str]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">_verify_reason_of_report_must_contain_specific_characters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;^[A-z0-9_ ąćęłńóśźżł]+$&quot;</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">reason_of_report</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;reason_of_report_must_contain_specific_characters&quot;</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">test_selector</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">_verify_reason_of_report_must_contain_specific_characters</span>
+        <span class="p">]</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">),</span> <span class="n">reason_of_report</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Banned------------------------------------------------------------------------------------------------------------</span>
+
+    <span class="k">def</span> <span class="nf">_verify_reason_of_ban</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason_of_ban</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bound method:   Provided reason_of_ban must be longer that a single character.  And must match this regex:</span>
+<span class="sd">                        ^[A-z0-9_ ąćęłńóśźżł]+$ .</span>
+
+<span class="sd">        :param reason_of_ban:  Reason of ban that you want to check.</span>
+<span class="sd">        :type reason_of_ban:   str</span>
+
+<span class="sd">        :return:    If check was not passed it will return the data to verification.</span>
+<span class="sd">        :rtype:     Optional[tuple[str, str]]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">_verify_reason_of_ban_must_contain_specific_characters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;^[A-z0-9_ ąćęłńóśźżł]+$&quot;</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">reason_of_ban</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;reason_of_ban_must_contain_specific_characters&quot;</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">test_selector</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">_verify_reason_of_ban_must_contain_specific_characters</span>
+        <span class="p">]</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">test_selector</span><span class="p">),</span> <span class="n">reason_of_ban</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">Database Package</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Dominik Breksa, Jakub Kot.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

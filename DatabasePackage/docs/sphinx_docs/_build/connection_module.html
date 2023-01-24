@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>connection_module package &#8212; Database Package 1.0.0. documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="connection-module-package">
+<h1>connection_module package<a class="headerlink" href="#connection-module-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-src.connection_module.env_dev">
+<span id="connection-module-env-dev-module"></span><h2>connection_module.env_dev module<a class="headerlink" href="#module-src.connection_module.env_dev" title="Permalink to this heading">¶</a></h2>
+<p>Connection details to used to a developer’s database server (IP whitelist required).</p>
+</section>
+<section id="module-src.connection_module.env_live">
+<span id="connection-module-env-live-module"></span><h2>connection_module.env_live module<a class="headerlink" href="#module-src.connection_module.env_live" title="Permalink to this heading">¶</a></h2>
+<p>Connection details to used to a live database server (Use of AGH VPN required).</p>
+</section>
+<section id="module-src.connection_module.maintain_connection_to_database">
+<span id="connection-module-maintain-connection-to-database-module"></span><h2>connection_module.maintain_connection_to_database module<a class="headerlink" href="#module-src.connection_module.maintain_connection_to_database" title="Permalink to this heading">¶</a></h2>
+<p>Module related to connecting to a database.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.connection_module.maintain_connection_to_database.Connection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.connection_module.maintain_connection_to_database.</span></span><span class="sig-name descname"><span class="pre">Connection</span></span><a class="reference internal" href="_modules/src/connection_module/maintain_connection_to_database.html#Connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.connection_module.maintain_connection_to_database.Connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<blockquote>
+<div><p>Class used to maintain connection with a database and help with optimization.</p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><dl class="simple">
+<dt>!IMPORTANT!</dt><dd><ul class="simple">
+<li><p>Keep in mind that despite the previous note methods used in this class will not throw more exceptions than
+listed in method description.</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><p>For any bug reports please contact: Dominik Breksa.</p>
+</div></blockquote>
+<hr class="docutils" />
+<blockquote>
+<div><dl class="simple">
+<dt>Songs, with which this class was made:</dt><dd><ul class="simple">
+<li><p>BLACK SABBATH, “Paranoid”.</p></li>
+<li><p>WORKERS &amp; RESOURCES: SOVIET REPUBLIC GAME SOUNDTRACK</p></li>
+<li><p>DEFTONES, “My Own Summer”</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.connection_module.maintain_connection_to_database.Connection.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/connection_module/maintain_connection_to_database.html#Connection.connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.connection_module.maintain_connection_to_database.Connection.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to initiate a connection. Must be used first before any further methods are called
+(apart from default constructor). Otherwise, other class methods will raise error: NoConnection meaning that no
+connection is started.</p>
+<dl class="simple">
+<dt>!IMPORTANT!</dt><dd><ul class="simple">
+<li><p>This method is deprecated. It is advised to use “with” command while managing connection, while
+using ManageDatabase class.</p></li>
+</ul>
+</dd>
+</dl>
+<p>For connection details it uses the arguments provided in a constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mysql.connector.Error</strong> – Any of the exception from “mysql.connector” libreary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.connection_module.maintain_connection_to_database.Connection.disconnect">
+<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/connection_module/maintain_connection_to_database.html#Connection.disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.connection_module.maintain_connection_to_database.Connection.disconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method used to disconnect from a MYSQL server. It must be used, before exiting the program in order to free a
+port on your device and kill a specific process in a database.</p>
+<dl class="simple">
+<dt>!IMPORTANT!</dt><dd><ul class="simple">
+<li><p>This method is deprecated. It is advised to use “with” command while managing connection, while
+using ManageDatabase class.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mysql.connector.Error</strong> – Any of the exception from “mysql.connector” libreary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.connection_module.maintain_connection_to_database.Connection.is_connected">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_connected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#src.connection_module.maintain_connection_to_database.Connection.is_connected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for self._is_connected. Makes this variable immutable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if you have earlier used .connect() method False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src.connection_module">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src.connection_module" title="Permalink to this heading">¶</a></h2>
+<p>Module that is responsible for connecting to a database. It is very simple and elementary.</p>
+<p>Please note that two more modules (reading_module and manage_module) inherits this connection_module. In all class
+descriptions there are further instruction how to behave with this information and how to solve some problems regarding
+this fact.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Database Package</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Dominik Breksa, Jakub Kot.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/connection_module.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

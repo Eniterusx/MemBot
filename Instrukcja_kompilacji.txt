@@ -1,0 +1,30 @@
+Na stronie discord.com/developers trzeba utworzyć swoją aplikację oraz dodać do niej bota.
+Dodatkowo w zakładce OAuth2 w polu Redirects dodać URI "*link strony*/api/login"
+
+Python bot:
+- Bot
+Uzupełnić plik Membot/env_live.py
+ADMIN_LIST to lista ID wszystkich użytkowników discorda, którzy mają mieć prawa admina
+CHANNEL_ID to ID kanału, na którym bot będzie dawał informację o tym, że działa
+REPORT_CHANNEL to ID kanału, na którym będą pojawiać się zgłoszenia
+BOT_TOKEN - token discordowego bota, który można pozyskać ze strony discord.com/developers
+
+- Baza danych:
+Uzupełnić plik DatabasePackage/src/connection_module/env_live.py
+HOST, DATABASE_NAME, USERNAME, PASSWORD - dane do logowania do bazy danych
+PORT - domyślnie '3306'
+CHARACTER_SET - domyślnie 'utf8mb3'
+
+Javascript:
+Uzupełnić plik NextJSWebsite/mem-bot
+DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD - dane do logowania do bazy danych
+IMGUR_CLIENTSECRET, IMGUR_CLIENTID, IMGUR_ACCESTOKEN, IMGUR_REFRESHTOKEN - token użytkownika imgura. Dokładna instrukcja tutaj https://api.imgur.com
+NEXT_PUBLIC_DISCORD_CLIENTID - clientID discordowego bota
+NEXT_PUBLIC_URL - link, na którym jest hostowana strona
+DISCORD_CLIENTSECRET - client secret discordowego bota, który można pozyskać ze strony discord.com/developers
+JWT_SECRET - client secret do JSON Web Tokenów (tak na prawdę dowolny ciąg znaków)
+
+Aby uruchomić bota
+
+Aby uruchomić bota uruchamiamy funkcję Membot/main.py
+Aby uruchomić stronę, w katalogu NextJSWebsite/mem-bot uruchamiamy komendę npm run dev
